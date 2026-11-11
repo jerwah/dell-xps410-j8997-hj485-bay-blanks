@@ -33,11 +33,11 @@ If you try it on another model, please open an issue and let me know how it went
 | File | What |
 |---|---|
 | `stl/xps410_bay_blank.stl` | The part, with breakaway supports built in. Print this. |
-| `stl/test/latch_test.stl` | Just the latch end, to check the latch fit on your printer before printing the whole part |
+| `stl/test/latch_test.stl` | Just the latch end, to check that the latch fits and clicks into your computer before printing the whole part |
 | `stl/test/boss_test.stl` | Five screw bosses with hole sizes 2.6 to 3.0 mm, to tune the spare-screw holes if desired |
 | `xps410_bay_blank.scad` | Parametric OpenSCAD source (OpenSCAD 2021.01 or later) |
 | `MEASUREMENTS.md` | Every dimension of the original part, where it came from, and my test print log |
-| `photos/` | Photos of the original Dell part, and the printed ones installed |
+| `photos/` | Photos of the original Dell part and the printed ones; see [PHOTOS.md](PHOTOS.md) to view them all |
 
 ## Printing
 
@@ -45,7 +45,7 @@ I printed mine on a Creality Ender-3 V3 SE (stock 0.4 mm nozzle, textured PEI pl
 
 - **Orientation:** face down, exactly as the STL loads. The plate's texture becomes the matte front face, matching the original.
 - **Plate:** textured PEI.
-- **Supports: OFF in the slicer.** The breakaway supports are part of the model (pillars under the latch legs, a shelf under the tab and the lip on the tab side), with a deliberate small air gap so they snap off easily.
+- **Supports: OFF in the slicer.** The breakaway supports are part of the model (pillars under the latch arms, a shelf under the tab and the lip on the tab side), with a deliberate small air gap so they snap off easily.
 - **The slicer warning is expected.** OrcaSlicer says `It seems object <name>.stl has floating regions. Please re-orient the object or enable support generation.` That is the built-in air gap. Click OK and print; do not enable supports.
 - **Layer height:** 0.2 mm.
 - **Brim:** a mouse-ear brim stops the corners of the cover lifting in PETG for me.
@@ -63,7 +63,7 @@ I printed mine on a Creality Ender-3 V3 SE (stock 0.4 mm nozzle, textured PEI pl
 ### Removing the supports
 
 1. **Let it cool fully** before touching the supports: about 15 to 20 minutes, until the bed is under 30 °C and the part feels room temperature.
-2. **Use needle nose pliers to support the latch arm** and use a second set of pliers to break off the nub. (The small support pillar under the end of each latch leg). Do not break them off by hand, you'll probably snap an arm. Ask me how I know.
+2. **Use needle nose pliers to support the latch arm** and use a second set of pliers to break off the nub. (The small support pillar under the end of each latch arm). Do not break them off by hand, you'll probably snap an arm. Ask me how I know.
 
    ![OrcaSlicer preview of the latch end: keep the latch arms (green), break off the nub under each arm (red) with pliers](photos/slicer-latch-nub-annotated.png)
 
@@ -89,13 +89,13 @@ Open `xps410_bay_blank.scad` in OpenSCAD and use the Customizer (Window > Custom
 | `boss_hole_d` | 3.0 | Hole size in the **screw bosses**: the three round posts on the back that hold spare drive screws. Raise it if the screws won't go in, lower it if they fall out. The posts get wider with the hole. |
 | `brace` | `pocket` | Shape of the **latch brace**: the support behind the U where the two latch arms join. `pocket` (a solid wedge) is strongest. `original` roughly copies the original Dell brace but was too weak in my testing; `hybrid` is in between. |
 | `support_gap` | 0.3 | Air gap between the part and the **built-in support under the tab** (tab side). Raise it if that support fuses to the part, lower it if the tab sags onto it. |
-| `leg_support_gap` | 0.25 | Same, for the **support pillars under the latch legs** (latch side). |
+| `leg_support_gap` | 0.25 | Same, for the **support pillars under the latch arms** (latch side). |
 | `print_supports` | true | Set to false to leave out the built-in supports, if you would rather use your slicer's. |
 | `include_screw_bosses` | true | Set to false to leave out the screw bosses. |
 
 ## Photos
 
-Photos of the original Dell part are in `photos/`. They're for shape only; the camera angles make their scale unreliable, so every dimension came from calipers wherever possible (see `MEASUREMENTS.md`).
+See **[PHOTOS.md](PHOTOS.md)** for all the photos: the printed blank, support removal, and the original Dell part from every side. The photos of the original are in `photos/`. They're for shape only; the camera angles make their scale unreliable, so every dimension came from calipers wherever possible (see `MEASUREMENTS.md`).
 
 ## Not affiliated with Dell
 
