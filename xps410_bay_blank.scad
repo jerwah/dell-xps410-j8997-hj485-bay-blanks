@@ -19,7 +19,15 @@
 
 /* [What to build] */
 part = "full"; // [full, coupon, latch_test, boss_test]
-include_screw_bosses = true; // spare-screw storage on the back
+include_screw_bosses = true; // spare-screw storage on the back (ignored when the blank breathes)
+
+/* [Let it breathe (NAS mode)] */
+// Vent holes through the blank, for airflow when a fan pulls air through the
+// drive bays. Any choice except "stock" also drops the screw bosses.
+let_it_breathe = "stock"; // [stock:Stock (no air), round:Round holes, honeycomb:Honeycomb, slots:Slots]
+vent_hole   = 5.0;  // hole size: diameter (round), across the flats (honeycomb), width (slots)
+vent_web    = 1.6;  // plastic left between neighbouring holes
+vent_margin = 2.5;  // solid strip kept between the vents and the pocket edges / latch
 
 /* [Front plate] */
 lip_w      = 146.66;  // lip outer width, tab not included
@@ -152,6 +160,17 @@ fin_foot_z  = arm_bot_z - (fin_foot_x - u_x1) * fin_slope; // underside height a
 // with the original brace the U stops at arm level (no wall down to the floor);
 // the pocket brace leans on the U, and hybrid adds the wall back on purpose
 u_bot_z     = (brace == "original") ? arm_bot_z : floor_z;
+
+// Let it breathe: the rectangle the vents may use. It sits inside the back
+// pocket, a vent_margin in from its edges, and stops short of the latch: the
+// pocket brace reaches fin_reach back from the U, the other braces don't.
+breathe    = let_it_breathe != "stock";
+vent_x0    = rim_left + vent_margin;                                       // 8.36
+vent_x1    = (brace == "pocket" ? u_x0 - fin_reach : u_x0) - vent_margin;  // 119.27
+vent_y0    = rim_bottom + vent_margin;                                     // 6.0
+vent_y1    = lip_h - rim_top - vent_margin;                                // 33.62
+vent_pitch = vent_hole + vent_web;     // center to center, neighbouring holes
+vent_rowh  = vent_pitch * sin(60);     // row to row in a hex-packed grid
 
 // =====================================================================
 // Front plate (version 0)
@@ -455,6 +474,51 @@ module supports() {
 }
 
 // =====================================================================
+// Let it breathe (NAS mode vents)
+// =====================================================================
+
+// The hole pattern as a flat 2D drawing, centered in the vent rectangle.
+// Only whole holes are drawn: the counts are worked out first, then the
+// grid is shifted so the leftover space is split evenly on both sides.
+module vent_pattern_2d() {
+    w  = vent_x1 - vent_x0;
+    h  = vent_y1 - vent_y0;
+    cx = (vent_x0 + vent_x1) / 2;
+    cy = (vent_y0 + vent_y1) / 2;
+    if (let_it_breathe == "slots") {
+        // tall slots with round ends, side by side
+        nx = floor((w - vent_hole) / vent_pitch) + 1;
+        sx = cx - (nx - 1) * vent_pitch / 2;
+        for (i = [0 : nx - 1])
+            hull() {   // hull of two circles = a slot
+                translate([sx + i * vent_pitch, vent_y0 + vent_hole / 2]) circle(d = vent_hole);
+                translate([sx + i * vent_pitch, vent_y1 - vent_hole / 2]) circle(d = vent_hole);
+            }
+    } else {
+        // hex-packed rows: every other row shifts half a pitch to the right
+        ny = floor((h - vent_hole) / vent_rowh) + 1;
+        nx = floor((w - vent_hole - vent_pitch / 2) / vent_pitch) + 1;
+        sx = cx - ((nx - 1) * vent_pitch + vent_pitch / 2) / 2;
+        sy = cy - (ny - 1) * vent_rowh / 2;
+        for (j = [0 : ny - 1], i = [0 : nx - 1])
+            translate([sx + i * vent_pitch + (j % 2) * vent_pitch / 2, sy + j * vent_rowh])
+                if (let_it_breathe == "round")
+                    circle(d = vent_hole);
+                else   // honeycomb: a 6-sided "circle"; d is corner to corner,
+                       // so divide by cos(30) to make vent_hole the flat-to-flat size
+                    rotate(30) circle(d = vent_hole / cos(30), $fn = 6);
+    }
+}
+
+// The pattern pushed up into 3D, tall enough to cut through the face and
+// the pocket floor (the vent rectangle never reaches the thicker rim).
+module vents() {
+    translate([0, 0, -1])
+        linear_extrude(height = floor_z + 2)
+            vent_pattern_2d();
+}
+
+// =====================================================================
 // Assembly
 // =====================================================================
 
@@ -463,10 +527,11 @@ module full_part() {
         union() {
             front_plate();
             rails();
-            if (include_screw_bosses) bosses_and_ribs();
+            if (include_screw_bosses && !breathe) bosses_and_ribs();
             latch();
         }
-        if (include_screw_bosses) boss_holes();
+        if (include_screw_bosses && !breathe) boss_holes();
+        if (breathe) vents();
     }
 }
 

@@ -12,6 +12,10 @@ Two printed blanks installed in my XPS 410.
 
 Back view: my print next to the original Dell blank (the one with the sticker), both holding the spare screws.
 
+![All three vented blanks: honeycomb and slots installed in the XPS 410 front panel, round holes on the bench](photos/let-it-breathe-all-three.jpg)
+
+Let it breathe: the honeycomb (top) and slots versions installed in the front panel, the round-hole version on the bench.
+
 ## Removing the supports
 
 ![OrcaSlicer preview of the latch end: keep the latch arms (green), break off the nub under each arm (red) with pliers](photos/slicer-latch-nub-annotated.png)

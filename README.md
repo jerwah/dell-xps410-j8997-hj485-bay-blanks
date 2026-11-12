@@ -33,10 +33,13 @@ If you try it on another model, please open an issue and let me know how it went
 | File | What |
 |---|---|
 | `stl/xps410_bay_blank.stl` | The part, with breakaway supports built in. Print this. |
+| `stl/xps410_bay_blank_breathe_honeycomb.stl` | Let it breathe: honeycomb vents, no screw bosses (my favorite) |
+| `stl/xps410_bay_blank_breathe_round.stl` | Let it breathe: round vent holes, no screw bosses |
+| `stl/xps410_bay_blank_breathe_slots.stl` | Let it breathe: slot vents, no screw bosses |
 | `stl/test/latch_test.stl` | Just the latch end, to check that the latch fits and clicks into your computer before printing the whole part |
 | `stl/test/boss_test.stl` | Five screw bosses with hole sizes 2.6 to 3.0 mm, to tune the spare-screw holes if desired |
 | `xps410_bay_blank.scad` | Parametric OpenSCAD source (OpenSCAD 2021.01 or later) |
-| `MEASUREMENTS.md` | Every dimension of the original part, where it came from, and my test print log |
+| `MEASUREMENTS.md` | Every dimension of the original part and where it came from |
 | `photos/` | Photos of the original Dell part and the printed ones; see [PHOTOS.md](PHOTOS.md) to view them all |
 
 ## Printing
@@ -77,6 +80,16 @@ I printed mine on a Creality Ender-3 V3 SE (stock 0.4 mm nozzle, textured PEI pl
 
 - The three bosses on the back store spare optical-drive screws, as on the original. The screws thread straight into the 3.0 mm holes for me. You can also turn them off in the options.
 
+## Let it breathe (NAS mode)
+
+The real reason I made this: my XPS 410 is becoming a NAS, and I'm mounting a fan behind the drive stack to pull air through the chassis. A solid blank blocks that, so the model has a vented option.
+Pick it with `let_it_breathe` in the Customizer: **Stock (no air)**, **Round holes**, **Honeycomb** or **Slots**. Any vented choice drops the screw bosses, since they would sit in the airflow.
+The vents stop short of the edges and the latch brace, so the fit and the latch are exactly the same as the stock blank. Ready-made STLs for all three are in `stl/`.
+
+<img src="photos/let-it-breathe-all-three.jpg" width="400" alt="All three vented blanks: honeycomb and slots installed in the XPS 410 front panel, round holes on the bench">
+
+All three printed in PETG and all three fit: honeycomb (top) and slots installed, round holes on the bench. Honeycomb is my favorite.
+
 ## Customizing
 
 Open `xps410_bay_blank.scad` in OpenSCAD and use the Customizer (Window > Customizer). Every dimension is a named variable. These are the ones worth adjusting:
@@ -92,6 +105,10 @@ Open `xps410_bay_blank.scad` in OpenSCAD and use the Customizer (Window > Custom
 | `leg_support_gap` | 0.25 | Same, for the **support pillars under the latch arms** (latch side). |
 | `print_supports` | true | Set to false to leave out the built-in supports, if you would rather use your slicer's. |
 | `include_screw_bosses` | true | Set to false to leave out the screw bosses. |
+| `let_it_breathe` | `stock` | Vent holes for airflow (see Let it breathe): `stock` (no air), `round`, `honeycomb` or `slots`. Any vented choice also leaves out the screw bosses. |
+| `vent_hole` | 5.0 | Size of each vent: the diameter for round holes, across the flats for honeycomb, the width for slots. Bigger lets more air through. |
+| `vent_web` | 1.6 | Plastic left between neighbouring vents. Raise it for a stiffer plate, lower it for more open area (keep it at least 3 or 4 nozzle widths). |
+| `vent_margin` | 2.5 | Solid strip kept between the vents and the pocket edges and latch brace. |
 
 ## Photos
 

@@ -149,6 +149,20 @@ Squeezing the arms together releases it.
 | squeeze travel | small; arms can be made to touch | M | |
 | brace fins | 2 fins, 0.8 thick, from the U's back (pocket side) down to the floor at about 45 degrees, at the arms' inner faces, mostly filled between | M/E | selectable with `brace`: **pocket** (default; a deliberate deviation, because the original style was too weak when printed) is a solid wedge sloping into the empty pocket, `fin_w` 4.5, stiffest; **original** follows the Dell part (per the author's hand sketch, not published): a slanted strut between the arms from the U top down to the top corner of the latch-end wall, open underneath. Its underside starts at the arms' bottom (Z 8.8), so it is as deep as the crossbar at the U (6.4, derived). The U crossbar stops at arm level (Z 8.8 to 15.2) with no wall down to the floor; the brace alone carries the latch. `fin_orig_w` 2.3 (fins at the gap's thirds, filled), `fin_foot_w` 1.2 estimated; slope derived from the two end points (about 44.5 degrees). Keeps the arms' slight up/down flex. **hybrid** is the original strut plus the U wall down to the floor, for strength |
 
+## Let it breathe (vents, not on the original)
+
+| Variable | Value | Src | Notes |
+|---|---|---|---|
+| `let_it_breathe` | stock | C | `round`, `honeycomb` or `slots` cuts vents through the pocket floor and drops the screw bosses |
+| `vent_hole` | 5.0 | C | round diameter, honeycomb across the flats, slot width |
+| `vent_web` | 1.6 | C | plastic between neighbouring vents |
+| `vent_margin` | 2.5 | C | solid strip inside the pocket edges and before the latch brace |
+| vent area, X | 8.36 to 119.27 | D | `rim_left + vent_margin` to the brace (`u_x0 - fin_reach` for the pocket brace) `- vent_margin` |
+| vent area, Y | 6.0 to 33.62 | D | `rim_bottom + vent_margin` to `lip_h - rim_top - vent_margin` |
+| pitch / row height | 6.6 / 5.72 | D | `vent_hole + vent_web`; `pitch * sin(60)` (hex packing, alternate rows offset half a pitch) |
+
+All three patterns tested in PETG: same fit as the stock blank.
+
 ## Tools and print setup
 
 - OpenSCAD 2021.01, OrcaSlicer 2.5.
