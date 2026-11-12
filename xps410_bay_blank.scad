@@ -1,5 +1,5 @@
 // 5.25" drive bay blank, fits Dell XPS 410 / Dimension 9200 (Dell P/N J8997)
-// https://github.com/jerwah/dell-xps410-j8997-bay-blank
+// https://github.com/jerwah/dell-xps410-j8997-hj485-bay-blanks
 // Copyright (c) 2026 JerWah. Licensed under CC BY-SA 4.0 (see LICENSE).
 // AI-assisted: designed with Claude (Anthropic) in Claude Code; measurements,
 // test prints and design decisions by the author.
